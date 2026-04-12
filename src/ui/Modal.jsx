@@ -48,3 +48,55 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
+// compound component pattern
+import React, {
+  cloneElement,
+  createContext,
+  useContext,
+  useState,
+} from "react";
+import { HiXMark } from "react-icons/hi2";
+import { createPortal } from "react-dom";
+import { useOutsideClick } from "../hooks/useOutsideClick";
+const modalContext = createContext();
+
+export default function Modal({ children }) {
+  const [openName, setOpenName] = useState("");
+
+  const close = () => setOpenName(() => "");
+  const open = setOpenName;
+  return (
+    <modalContext.Provider value={{ openName, close, open }}>
+      {children}
+    </modalContext.Provider>
+  );
+}
+
+function Open({ children, opens: opensWindowName }) {
+  const { open } = useContext(modalContext);
+  return cloneElement(children, { onClick: () => open(opensWindowName) });
+}
+
+function Window({ children, name }) {
+  const { openName, close } = useContext(modalContext);
+  const modalRef = useOutsideClick(close);
+
+  if (name !== openName) return null;
+
+  return createPortal(
+    <Overlay>
+      <StyledModal ref={modalRef}>
+        <Button onClick={close}>
+          <HiXMark />
+        </Button>
+        <div>{cloneElement(children, { onCLoseModal: close })}</div>
+      </StyledModal>
+    </Overlay>,
+    document.body,
+  );
+}
+
+Modal.Open = Open;
+Modal.Window = Window;
+
