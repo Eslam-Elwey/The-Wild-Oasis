@@ -3,9 +3,42 @@ import CabinRow from "./CabinRow";
 import useCabins from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import { useSearchUrl } from "../../hooks/useSearchUrl";
 
 const CabinTable = () => {
   const { isLoading, error, cabins } = useCabins();
+
+  const {getParam} = useSearchUrl() ;
+
+  const filteredVal = getParam('discount') ??'all' ;
+
+  let filteredCabins ; 
+
+  //1- filter 
+  if(filteredVal==='all')  
+  {
+    filteredCabins = cabins ;
+  }
+  else if(filteredVal==='with-discount') 
+  {
+    filteredCabins = cabins?.filter((cabin)=>cabin.discount!==0)
+  }
+  else if(filteredVal==='no-discount') 
+  {
+    filteredCabins = cabins.filter((cabin)=>cabin.discount===0)
+  }
+
+  // 2-sort 
+  const sortBy = getParam('sortBy') ?? 'startDate-asc' ;
+  const [field,direction] = sortBy.split('-') ;
+
+  const modifier = direction ==='asc' ?1 : -1
+
+  const sortedCabins = filteredCabins?.sort( (a,b)=> (a[field] - b[field])* modifier)  ;
+
+
+
+  console.log(filteredVal);
 
   if (isLoading) return <Spinner />;
 
@@ -24,7 +57,7 @@ const CabinTable = () => {
         </Table.Header>
 
         <Table.Body
-          data={cabins}
+          data={sortedCabins}
           render={(cabin) => {
             return <CabinRow cabin={cabin} key={cabin.id} />;
           }}
