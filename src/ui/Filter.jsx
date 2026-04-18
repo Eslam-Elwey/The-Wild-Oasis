@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+
 import styled, { css } from "styled-components";
 import { useSearchUrl } from "../hooks/useSearchUrl";
 

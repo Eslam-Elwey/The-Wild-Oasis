@@ -71,7 +71,7 @@ async function createBookings() {
       status = "checked-out";
     if (
       isFuture(new Date(booking.startDate)) ||
-      isToday(new Date(booking.startDate))
+      isToday(new Date(booking.startDate)) 
     )
       status = "unconfirmed";
     if (

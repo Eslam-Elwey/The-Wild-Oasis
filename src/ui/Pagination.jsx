@@ -55,3 +55,49 @@ const PaginationButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+import React from "react";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { useSearchUrl } from "../hooks/useSearchUrl";
+import { PAGE_SIZE } from "../utils/constants";
+
+export default function Pagination({count}) {
+
+  const {getParam , setParam} = useSearchUrl() ;
+
+  const currentPage = getParam('page')?Number(getParam('page')) : 1 ;
+
+  const pageCount = Math.ceil(count /  PAGE_SIZE)
+
+  function nextPage()
+  {
+    const next = currentPage===pageCount?currentPage:currentPage+1 ;
+    setParam('page',next) ;
+  }
+  function prevPage()
+  {
+    const prev = currentPage===1?currentPage:currentPage-1 ;
+    setParam('page',prev) ;
+  }
+
+  if(pageCount<=1) return  null ;
+
+  return (
+    <StyledPagination>
+      <P>
+        Showing <span>{(currentPage-1)*PAGE_SIZE + 1}</span> to <span>{(currentPage===pageCount?count:currentPage*PAGE_SIZE)}</span> of <span>{count}</span> results
+      </P>
+      <Buttons>
+        <PaginationButton onClick={prevPage} disabled={currentPage===1} active>
+          <HiChevronLeft /> 
+          <span>Previous</span>
+        </PaginationButton>
+
+        <PaginationButton onClick={nextPage} disabled={currentPage===pageCount}>
+          <span>Next</span>
+          <HiChevronRight /> 
+        </PaginationButton>
+      </Buttons>
+    </StyledPagination>
+  );
+}

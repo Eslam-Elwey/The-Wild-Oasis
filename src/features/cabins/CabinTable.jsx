@@ -4,6 +4,7 @@ import useCabins from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchUrl } from "../../hooks/useSearchUrl";
+import Empty from "../../ui/Empty";
 
 const CabinTable = () => {
   const { isLoading, error, cabins } = useCabins();
@@ -40,8 +41,11 @@ const CabinTable = () => {
 
   console.log(filteredVal);
 
+  
   if (isLoading) return <Spinner />;
 
+  if(!cabins.length) return <Empty resourceName='cabins' />
+  
   if (error) return <p>Error in fetching cabins data : {error.message}</p>;
 
   return (
