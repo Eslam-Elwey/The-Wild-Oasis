@@ -12,11 +12,9 @@ export function useSearchUrl()
     
     function setParam(name, value)
     {
-        const newParams = new URLSearchParams(searchParams) ;
+        searchParams.set(name,value) ;
         
-        value ? newParams.set(name,value)  : newParams.delete(name) ;
-        
-        setSearchParams(newParams) ;
+        setSearchParams(searchParams) ;
     }
 
     return {getParam , setParam}

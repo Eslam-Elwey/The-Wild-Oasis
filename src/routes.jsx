@@ -8,13 +8,17 @@ import Account from "./pages/Account";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
+import Booking from "./pages/Booking";
+import CheckIn from "./pages/CheckIn";
 
 
 const router = createBrowserRouter([
     {element : <AppLayout /> , children : [
         {index : true , element : <Navigate to='/dashboard' replace /> } ,
         {path : '/dashboard' , element : <Dashboard /> } ,
+        {path : '/checkin/:bookingId' , element : <CheckIn /> } ,
         {path : '/bookings' , element : <Bookings /> } ,
+        {path : '/bookings/:bookingId' , element : <Booking /> } ,
         {path : '/cabins' , element : <Cabins /> } ,
         {path : '/users' , element : <Users /> } ,
         {path : '/settings' , element : <Settings /> } ,

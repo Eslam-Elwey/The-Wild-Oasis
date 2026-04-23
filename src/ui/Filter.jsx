@@ -42,6 +42,11 @@ export default function Filter({ filterdField, options }) {
 
   function handleClick(value) {
     setParam(filterdField, value);
+    const currentPage = getParam('page') ;
+    if(currentPage!==1)
+    {
+      setParam('page',1)
+    }
   }
 
   return (

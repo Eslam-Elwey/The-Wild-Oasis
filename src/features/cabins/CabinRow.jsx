@@ -110,7 +110,6 @@ const CabinRow = ({ cabin }) => {
                 resourceName={`cabin${name}`}
                 onConfirm={() => deleteCabin(cabinId)}
                 disabled={isDeleting}
-                cabinToEdit={cabin}
               />
             </Modal.Window>
           </Modal>
