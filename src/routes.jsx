@@ -10,23 +10,30 @@ import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
 import Booking from "./pages/Booking";
 import CheckIn from "./pages/CheckIn";
-
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const router = createBrowserRouter([
-    {element : <AppLayout /> , children : [
-        {index : true , element : <Navigate to='/dashboard' replace /> } ,
-        {path : '/dashboard' , element : <Dashboard /> } ,
-        {path : '/checkin/:bookingId' , element : <CheckIn /> } ,
-        {path : '/bookings' , element : <Bookings /> } ,
-        {path : '/bookings/:bookingId' , element : <Booking /> } ,
-        {path : '/cabins' , element : <Cabins /> } ,
-        {path : '/users' , element : <Users /> } ,
-        {path : '/settings' , element : <Settings /> } ,
-        {path : '/account' , element : <Account /> } 
-    ]},
-    
-    {path : '/login' , element : <Login /> } ,
-    {path : '*' , element : <PageNotFound/> } ,
-]) ;
+  {
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      { index: true, element: <Navigate to="/dashboard" replace /> },
+      { path: "/dashboard", element: <Dashboard /> },
+      { path: "/checkin/:bookingId", element: <CheckIn /> },
+      { path: "/bookings", element: <Bookings /> },
+      { path: "/bookings/:bookingId", element: <Booking /> },
+      { path: "/cabins", element: <Cabins /> },
+      { path: "/users", element: <Users /> },
+      { path: "/settings", element: <Settings /> },
+      { path: "/account", element: <Account /> },
+    ],
+  },
 
-export default router ;
+  { path: "/login", element: <Login /> },
+  { path: "*", element: <PageNotFound /> },
+]);
+
+export default router;
