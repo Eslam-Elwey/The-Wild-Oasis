@@ -111,6 +111,7 @@ function CheckinBooking() {
       </Box>
 
       <ButtonGroup>
+        <Button variation='primary' onClick={handleCheckin} style={{fontSize : '10pt'}}>Check in </Button>
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
