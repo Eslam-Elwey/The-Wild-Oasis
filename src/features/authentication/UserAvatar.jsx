@@ -28,7 +28,6 @@ export default function UserAvatar() {
 
   const { fullName, avater } = user.user_metadata;
 
-  console.log(fullName, avater);
 
   return (
     <StyledUserAvatar>
