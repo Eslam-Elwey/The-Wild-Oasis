@@ -6,6 +6,7 @@ import Heading from "../../ui/Heading";
 import Tag from "../../ui/Tag";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
+import Empty from "../../ui/Empty";
 import ButtonText from "../../ui/ButtonText";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
@@ -28,8 +29,6 @@ function BookingDetail() {
   const { deleteBooking, isDeleting } = useDeleteBooking();
   const navigate = useNavigate();
 
-  const status = booking.status ?? "checked-in";
-
   const moveBack = useMoveBack();
   const { checkout, isCheckingOut } = useCheckout();
 
@@ -41,7 +40,9 @@ function BookingDetail() {
 
   if (isLoading) return <Spinner />;
 
-  if (error) return <p>Something went wrong</p>;
+  if (error) return <Empty resourceName="booking" />;
+
+  const status = booking.status ?? "checked-in";
 
   return (
     <Modal>
@@ -79,9 +80,11 @@ function BookingDetail() {
         <Modal.Window name={`delete booking#${booking.id}`}>
           <ConfirmDelete
             resourceName={`booking #${booking.id}`}
-            onConfirm={() => deleteBooking(booking.id,{
-              onSettled : moveBack
-            })}
+            onConfirm={() =>
+              deleteBooking(booking.id, {
+                onSettled: moveBack,
+              })
+            }
             disabled={isDeleting}
           />
         </Modal.Window>
